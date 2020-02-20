@@ -2,6 +2,7 @@ package com.interview.challenge.celouser.adapter
 
 import android.app.Application
 import android.util.Log
+import android.widget.Toast
 import androidx.paging.PagedList
 import com.interview.challenge.celouser.database.SharedPreference
 import com.interview.challenge.celouser.database.VideosDatabase
@@ -17,7 +18,7 @@ import java.io.IOException
 class BounderyCallback(
     val viewModelScope: CoroutineScope,
     val database: VideosDatabase,
-    application: Application
+    val application: Application
 ) : PagedList.BoundaryCallback<UserListDatabase>() {
     
     private var resultNumber = 1000
@@ -38,7 +39,8 @@ class BounderyCallback(
                 refreshVideos(pageNumber, resultNumber)
                 sharedPref.savePageNumber(pageNumber + 1)
             } catch (networkError: IOException) {
-                Log.d("error", networkError.message)
+                Toast.makeText(application, "network problem :${networkError.message}", Toast.LENGTH_SHORT).show()
+                //Log.d("error", networkError.message)
             }
         }
     }

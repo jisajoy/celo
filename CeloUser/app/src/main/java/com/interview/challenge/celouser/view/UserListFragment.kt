@@ -48,12 +48,7 @@ class UserListFragment : Fragment() {
         binding.setLifecycleOwner(this)
         val manager = GridLayoutManager(activity, 2)
         binding.userListRv.layoutManager = manager
-        // Observer for the network error.
-        userListViewmodel.eventNetworkError.observe(
-            viewLifecycleOwner,
-            Observer<Boolean> { isNetworkError ->
-                if (isNetworkError) onNetworkError(userListViewmodel)
-            })
+
 /*Adapter click implemented on fragment*/
         val adapter = UserListRecyclerview(CeloClickListener { user ->
             userListViewmodel.onUserCardClicked(user)
@@ -70,7 +65,7 @@ class UserListFragment : Fragment() {
             })
         userListViewmodel.navigateToDetail.observe(viewLifecycleOwner, Observer { userData ->
             userData?.let {
-                Log.d("night", "${userData}")
+                //Log.d("night", "${userData}")
                 this.findNavController().navigate(
                     UserListFragmentDirections.actionUserListFragmentToDetailFragment(userData)
                 )
@@ -79,13 +74,6 @@ class UserListFragment : Fragment() {
         })
         //setHasOptionsMenu(true)
         return binding.root
-    }
-
-    private fun onNetworkError(userListViewmodel: UserListViewModel) {
-        if (!userListViewmodel.isNetworkErrorShown.value!!) {
-            Toast.makeText(activity, "Network Error", Toast.LENGTH_LONG).show()
-            userListViewmodel.onNetworkErrorShown()
-        }
     }
 
 }

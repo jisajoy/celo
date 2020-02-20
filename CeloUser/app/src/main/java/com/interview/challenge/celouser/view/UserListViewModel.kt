@@ -21,13 +21,6 @@ class UserListViewModel(application: Application) : ViewModel() {
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
 
-    private var _eventNetworkError = MutableLiveData<Boolean>(false)
-
-
-    val eventNetworkError: LiveData<Boolean>
-        get() = _eventNetworkError
-
-
     private var _isNetworkErrorShown = MutableLiveData<Boolean>(false)
 
 
@@ -41,13 +34,6 @@ class UserListViewModel(application: Application) : ViewModel() {
     private val database = getDatabase(application)
     private val videosRepository = UsersDataRepository(database, viewModelScope, application)
     val userList = videosRepository.data
-
-    /**
-     * Resets the network error flag.
-     */
-    fun onNetworkErrorShown() {
-        _isNetworkErrorShown.value = true
-    }
 
 
     fun onUserCardClicked(user: User) {
